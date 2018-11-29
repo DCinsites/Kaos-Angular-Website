@@ -1,0 +1,45 @@
+
+html {
+    font-family: serif, sans-serif;
+  }
+  
+  header,
+  footer {
+    display: block;
+  }
+  
+  body {
+    color: #e60000;
+    background-color: #000000;
+    text-align: center;
+    line-height: 1;
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  h1 {
+      font-size: 100px;
+      display: block;
+      padding: none;
+      width: 100%;
+    }
+    
+    h2 {
+      font-size: 45px;
+      display: block;
+      padding: none;
+      width: 100%;
+    }
+
+    h3 {
+        font-size: 65px;
+        display: block;
+        padding: none;
+        width: 100%;
+    }
+    p {
+        font-size: 30px;
+        display: block;
+        padding: none;
+        width: 100%;
+    }
