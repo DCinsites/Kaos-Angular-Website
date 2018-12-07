@@ -1,4 +1,29 @@
 
+.card-text {
+  color: #fff;
+}
+
+.card-body {
+  background: #212121;
+}
+
+.text-muted {
+  color: #B71C1C !important
+}
+
+.card-footer {
+  background: #303030;
+}
+
+footer {
+  background: #212121;
+}
+
+footer p {
+  color: #B71C1C;
+  font-size: 1em;
+}
+/* 
 html {
     font-family: serif, sans-serif;
   }
@@ -42,4 +67,4 @@ html {
         display: block;
         padding: none;
         width: 100%;
-    }
+    } */

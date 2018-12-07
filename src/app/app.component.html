@@ -1,10 +1,116 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 
-<app-nav>
+<div class="wrapper">
 
-<app-home></app-home>
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Kaos Kuriosities</h3>
+        </div>
 
-</app-nav>
+        <ul class="list-unstyled components">
+            <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-shopping-cart"></i>
+                    Shops
+                </a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <a routerLink="/consignments">Consignments</a>
+                    </li>
+                    <!-- <li>
+            <a routerLink="#">Twisted Delights</a>
+          </li>
+          <li>
+            <a routerLink="#">Pleasures</a>
+          </li> -->
+                </ul>
+            </li>
+            <li>
+                <a routerLink="/about">
+                    <i class="fas fa-info"></i>
+                    About
+                </a>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-users"></i>
+                    Social
+                </a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="https://www.instagram.com/billycollinsworth3burningkaos7" target="_blank">Instagram</a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/kaos.collinsworth" target="_blank">Facebook</a>
+                    </li>
+                    <!-- <li> TODO: Future Project
+            <a routerLink="#">Kaos Social</a>
+          </li> -->
+                </ul>
+            </li>
+            <li>
+                <a routerLink="/portfolio">
+                    <i class="fas fa-folder-open"></i>
+                    Portfolio
+                </a>
+            </li>
+            <li>
+                <a routerLink="/contact">
+                    <i class="fas fa-address-card"></i>
+                    Contact
+                </a>
+            </li>
+        </ul>
 
+        <ul class="list-unstyled CTAs">
+            <li>
+                <a routerLink="/login" class="download">Login</a>
+            </li>
+            <li>
+                <a routerLink="/login" class="download">Sign Up</a>
+            </li>
+            <br>
+            <li>
+                <a routerLink="#">Shop Terms</a>
+            </li>
+            <li>
+                <a routerLink="#">Disclosure</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-dark bg-danger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="">Home</a>
+                        </li>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- SPACING BETWEEN ITEMS -->
+
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/profile">Account</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 <router-outlet></router-outlet>
+    </div>
+
+
