@@ -9,7 +9,9 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { ManageOrdersComponent } from './manage-orders/manage-orders.component';
 
 @NgModule({
-  declarations: [AdminDashboardComponent, AdminComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent],
+  declarations: [
+    AdminDashboardComponent, AdminComponent, ManageProductsComponent, ManageUsersComponent, ManageOrdersComponent
+  ],
   imports: [
     CommonModule,
     AdminRoutingModule
