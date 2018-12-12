@@ -1,4 +1,4 @@
-import { AdminModule } from './admin/admin.module';
+
 import { ConsignmentsComponent } from './consignments/consignments.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -28,7 +28,7 @@ import { SignupComponent } from './signup/signup.component';
     SignupComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, AdminModule
+    BrowserModule, AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
