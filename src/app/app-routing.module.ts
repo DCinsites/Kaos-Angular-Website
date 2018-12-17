@@ -1,15 +1,15 @@
 
 import { NgModule } from '@angular/core';
 
-import { SignupComponent } from './signup/signup.component';
-import { ProfileComponent } from './profile/profile.component';
-import { ConsignmentsComponent } from "./consignments/consignments.component";
-import { PortfolioComponent } from "./portfolio/portfolio.component";
-import { LoginComponent } from "./login/login.component";
+import { SignupComponent } from './firebase-auth/signup/signup.component';
+import { ProfileComponent } from './user/profile/profile.component';
+import { KonsignmentsComponent } from './main/konsignments/konsignments.component';
+import { PortfolioComponent } from './main/portfolio/portfolio.component';
+import { LoginComponent } from './firebase-auth/login/login.component';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from "./home/home.component";
-import { AboutComponent } from "./about/about.component";
-import { ContactComponent } from "./contact/contact.component";
+import { HomeComponent } from './main/home/home.component';
+import { AboutComponent } from './main/about/about.component';
+import { ContactComponent } from './main/contact/contact.component';
 
 const routes: Routes = [
   {
@@ -33,8 +33,8 @@ const routes: Routes = [
     component: PortfolioComponent
   },
   {
-    path: 'consignments',
-    component: ConsignmentsComponent
+    path: 'konsignments',
+    component: KonsignmentsComponent
   },
   {
     path: 'profile',
