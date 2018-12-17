@@ -1,30 +1,28 @@
-import {Injectable} from "@angular/core";
-import {DbAbstractionLayer} from "@nodeart/dal/index";
+import { Injectable } from '@angular/core';
+import { DbAbstractionLayer } from 'src/app/main/dal/index';
 
 /**
- * Product service. Has different methods for manipulating with products and its properties. 
+ * Product service. Has different methods for manipulating with products and its properties.
  */
 @Injectable()
-export class ProductService{
-  
+export class ProductService {
   /**
    * ElasticSearch index name. For default "firebase"
    */
   public esIndex = 'firebase';
 
-   constructor(private dal: DbAbstractionLayer){
-  }
+  constructor(private dal: DbAbstractionLayer) {}
 
   /**
    * Get product by id
    * @param {string} id id of product
    */
-  getOneProduct(id: string){
+  getOneProduct(id: string) {
     let queryObject = {
-      "query": {
-          "term":{
-              "_id": id
-          }
+      query: {
+        term: {
+          _id: id
+        }
       }
     };
     return this.dal.requestFullData(this.esIndex, 'product', queryObject);
@@ -38,14 +36,21 @@ export class ProductService{
    * @param {Array} tags tags ids array
    * @param {integer} size number of returned products
    * @param {integer} from offset of products
-   * 
+   *
    * @returns {Observable} Observable  of products
    */
-  searchProducts(categoryId: string, currentPrice, attributes: any[], tags: any[], size: number, from: number){
+  searchProducts(
+    categoryId: string,
+    currentPrice,
+    attributes: any[],
+    tags: any[],
+    size: number,
+    from: number
+  ) {
     let queryObject = {
-     size: size,
-     from: from,
-     query: {
+      size: size,
+      from: from,
+      query: {
         bool: {
           must: [
             {
@@ -55,14 +60,14 @@ export class ProductService{
             },
             {
               match: {
-                "category" : categoryId
+                category: categoryId
               }
             },
             {
-              "range" : {
-                "price" : {
-                    "gte" : currentPrice[0],
-                    "lte" : currentPrice[1]
+              range: {
+                price: {
+                  gte: currentPrice[0],
+                  lte: currentPrice[1]
                 }
               }
             }
@@ -70,23 +75,23 @@ export class ProductService{
         }
       }
     };
-    for(let i = 0; i < attributes.length; i++){
-        let key = "attributes." + attributes[i]['attrId'];
-        queryObject.query.bool.must[0]['bool'].should.push({
-          multi_match: {
-            query: attributes[i]['valueName'],
-            fields: [key]
-          }
-        });
+    for (let i = 0; i < attributes.length; i++) {
+      let key = 'attributes.' + attributes[i]['attrId'];
+      queryObject.query.bool.must[0]['bool'].should.push({
+        multi_match: {
+          query: attributes[i]['valueName'],
+          fields: [key]
+        }
+      });
     }
-    for(let i = 0; i < tags.length; i++){
-        let key = "tags";
-        queryObject.query.bool.must[0]['bool'].should.push({
-          multi_match: {
-            query: tags[i]['id'],
-            fields: [key]
-          }
-        });
+    for (let i = 0; i < tags.length; i++) {
+      let key = 'tags';
+      queryObject.query.bool.must[0]['bool'].should.push({
+        multi_match: {
+          query: tags[i]['id'],
+          fields: [key]
+        }
+      });
     }
     console.log(queryObject);
     return this.dal.requestFullData(this.esIndex, 'product', queryObject);
@@ -101,20 +106,20 @@ export class ProductService{
    * @param {string} categoryId category id
    * @returns {Observable} Observable of object {max_price, min_price}
    */
-  getPriceRanges(categoryId){
+  getPriceRanges(categoryId) {
     let queryObject = {
-     aggs : {
-        max_price : { max : { field : "price" } },
-        min_price : { min : { field : "price" } }
+      aggs: {
+        max_price: { max: { field: 'price' } },
+        min_price: { min: { field: 'price' } }
       },
       query: {
         bool: {
           should: {
             match: {
               category: categoryId
-                  }
-              }
+            }
           }
+        }
       }
     };
     console.log(JSON.stringify(queryObject));
@@ -123,19 +128,25 @@ export class ProductService{
 
   /**
    * Return filtered products with price ranges
-   * @param {Array} priceRange first element - min price, second - max price 
-   * @param {Array} attributes 
+   * @param {Array} priceRange first element - min price, second - max price
+   * @param {Array} attributes
    * @param {Array} tags array of tags ids
    * @param {integer} size number of returned products
    * @param {integer} from offset of products
-   * 
+   *
    * @returns {Observable} Observable of products
    */
-  filterProducts(priceRange: number[], attributes : any[], tags: any[], size, offset){
+  filterProducts(
+    priceRange: number[],
+    attributes: any[],
+    tags: any[],
+    size,
+    offset
+  ) {
     let queryObject = {
-     size: size,
-     from: offset,
-     query: {
+      size: size,
+      from: offset,
+      query: {
         bool: {
           must: [
             {
@@ -144,10 +155,10 @@ export class ProductService{
               }
             },
             {
-              "range" : {
-                "price" : {
-                    "gte" : priceRange[0],
-                    "lte" : priceRange[1]
+              range: {
+                price: {
+                  gte: priceRange[0],
+                  lte: priceRange[1]
                 }
               }
             }
@@ -155,23 +166,23 @@ export class ProductService{
         }
       }
     };
-    for(let i = 0; i < attributes.length; i++){
-        let key = "attributes." + attributes[i]['attrId'];
-        queryObject.query.bool.must[0]['bool'].should.push({
-          multi_match: {
-            query: attributes[i]['valueName'],
-            fields: [key]
-          }
-        });
+    for (let i = 0; i < attributes.length; i++) {
+      let key = 'attributes.' + attributes[i]['attrId'];
+      queryObject.query.bool.must[0]['bool'].should.push({
+        multi_match: {
+          query: attributes[i]['valueName'],
+          fields: [key]
+        }
+      });
     }
-    for(let i = 0; i < tags.length; i++){
-        let key = "tags";
-        queryObject.query.bool.must[0]['bool'].should.push({
-          multi_match: {
-            query: tags[i]['id'],
-            fields: [key]
-          }
-        });
+    for (let i = 0; i < tags.length; i++) {
+      let key = 'tags';
+      queryObject.query.bool.must[0]['bool'].should.push({
+        multi_match: {
+          query: tags[i]['id'],
+          fields: [key]
+        }
+      });
     }
     return this.dal.requestFullData(this.esIndex, 'product', queryObject);
   }
@@ -179,16 +190,16 @@ export class ProductService{
   /**
    * Return general category data by id
    * @param {string} generalCategoryId  general category id
-   * 
+   *
    * @returns {Observable} Observable of general category data
    */
-  getGeneralCategory(generalCategoryId){
+  getGeneralCategory(generalCategoryId) {
     let queryObj = {
-        "query": {
-            "term":{
-                "_id": generalCategoryId.toString()
-            }
+      query: {
+        term: {
+          _id: generalCategoryId.toString()
         }
+      }
     };
     return this.dal.requestData(this.esIndex, 'general-category', queryObj);
   }
@@ -196,43 +207,43 @@ export class ProductService{
   /**
    * Retunr gategory data by id
    * @param categoryId category id
-   * 
+   *
    * @returns {Observable} Observable of category data
    */
-  getCategory(categoryId){
+  getCategory(categoryId) {
     let queryObj = {
-        "query": {
-            "term":{
-                "_id": categoryId.toString()
-            }
+      query: {
+        term: {
+          _id: categoryId.toString()
         }
+      }
     };
-   return this.dal.requestFullData(this.esIndex, 'category', queryObj);
+    return this.dal.requestFullData(this.esIndex, 'category', queryObj);
   }
 
   /**
    * Return all general categories
-   * 
+   *
    * @returns {Observable} Observable array of general categories
    */
-  getGeneralCategories(){
+  getGeneralCategories() {
     let queryObj = {
-        "query": {
-            "match_all": {}
-        }
+      query: {
+        match_all: {}
+      }
     };
     return this.dal.requestData(this.esIndex, 'general-category', queryObj);
   }
 
   /**
    * Return categories by general category id
-   * @param {string} categoryId category id 
-   * 
+   * @param {string} categoryId category id
+   *
    * @returns {Observable} Observable array of categories
    */
-  getCategories(categoryId){
+  getCategories(categoryId) {
     let queryObj;
-    if(categoryId == ''){
+    if (categoryId == '') {
       queryObj = {
         query: {
           filtered: {
@@ -241,7 +252,7 @@ export class ProductService{
                 must_not: [
                   {
                     exists: {
-                      field: "parentId"
+                      field: 'parentId'
                     }
                   }
                 ]
@@ -249,7 +260,7 @@ export class ProductService{
             }
           }
         }
-      }
+      };
     } else {
       queryObj = {
         query: {
@@ -265,13 +276,13 @@ export class ProductService{
 
   /**
    * Get products from multiple categories
-   * @param {Array} categoryIds array of category ids 
+   * @param {Array} categoryIds array of category ids
    * @param {integer} size number of returned products
    * @param {integer} from offset of products
-   * 
-   * @returns {Observable} Observable of array of products 
+   *
+   * @returns {Observable} Observable of array of products
    */
-  getProductsByCategoryIds(categoryIds, size, from){
+  getProductsByCategoryIds(categoryIds, size, from) {
     let queryObj = {
       size: size,
       from: from,
@@ -284,36 +295,35 @@ export class ProductService{
           }
         }
       }
-    }
+    };
     return this.dal.requestData(this.esIndex, 'product', queryObj);
   }
 
   /**
-   * Return products by part of name. You pass part of name and method return Observable 
+   * Return products by part of name. You pass part of name and method return Observable
    * of all product that match your query
    * @param {string} query part of product name
    * @param {integer} size number of returned products
-   * 
+   *
    * @returns {Observable} Observable of data
    */
-  getProducts(query, size?){
+  getProducts(query, size?) {
     query = query.split(' ');
     let queryObj = {
-      "query": {
-          "bool": {
-            "must": [
-            ]
-          }
+      query: {
+        bool: {
+          must: []
         }
+      }
     };
-    if(size) {
+    if (size) {
       queryObj['size'] = size;
     }
     query.map(term => {
       term = term.replace(/\(|\)/g, '');
       queryObj.query.bool.must.push({
-        "wildcard": {
-          "name": term.toLowerCase() + "*"
+        wildcard: {
+          name: term.toLowerCase() + '*'
         }
       });
     });
@@ -326,13 +336,13 @@ export class ProductService{
    * @param {Array} currentPrice ranges of price(minimum price, maximum price)
    * @param {Array} attributes attributes ids array
    * @param {Array} tags tags ids array
-   * 
+   *
    * @returns {Observable} Observable of total items
    */
-  getTotalPages(categoryId, currentPrice, attributes: any[], tags: any[]){
+  getTotalPages(categoryId, currentPrice, attributes: any[], tags: any[]) {
     let queryObject = {
-     size: 0,
-     query: {
+      size: 0,
+      query: {
         bool: {
           must: [
             {
@@ -342,14 +352,14 @@ export class ProductService{
             },
             {
               match: {
-                "category" : categoryId
+                category: categoryId
               }
             },
             {
-              "range" : {
-                "price" : {
-                    "gte" : currentPrice[0],
-                    "lte" : currentPrice[1]
+              range: {
+                price: {
+                  gte: currentPrice[0],
+                  lte: currentPrice[1]
                 }
               }
             }
@@ -357,23 +367,23 @@ export class ProductService{
         }
       }
     };
-    for(let i = 0; i < attributes.length; i++){
-        let key = "attributes." + attributes[i]['attrId'];
-        queryObject.query.bool.must[0]['bool'].should.push({
-          multi_match: {
-            query: attributes[i]['valueName'],
-            fields: [key]
-          }
-        });
+    for (let i = 0; i < attributes.length; i++) {
+      let key = 'attributes.' + attributes[i]['attrId'];
+      queryObject.query.bool.must[0]['bool'].should.push({
+        multi_match: {
+          query: attributes[i]['valueName'],
+          fields: [key]
+        }
+      });
     }
-    for(let i = 0; i < tags.length; i++){
-        let key = "tags";
-        queryObject.query.bool.must[0]['bool'].should.push({
-          multi_match: {
-            query: tags[i]['id'],
-            fields: [key]
-          }
-        });
+    for (let i = 0; i < tags.length; i++) {
+      let key = 'tags';
+      queryObject.query.bool.must[0]['bool'].should.push({
+        multi_match: {
+          query: tags[i]['id'],
+          fields: [key]
+        }
+      });
     }
     console.log(JSON.stringify(queryObject));
     return this.dal.requestItemsTotal(this.esIndex, 'product', queryObject);
@@ -382,10 +392,10 @@ export class ProductService{
   /**
    * Return number of total pages required to put all products from multiple categories
    * @param {Array} categoryIds  array of category ids
-   * 
+   *
    * @returns {Observable} Observable of total items
    */
-  getTotalPagesByCategoryIds(categoryIds){
+  getTotalPagesByCategoryIds(categoryIds) {
     let queryObj = {
       size: 0,
       query: {
@@ -404,31 +414,31 @@ export class ProductService{
   /**
    * Return one attribute by id
    * @param {string} attributeId  attribute id
-   * 
+   *
    * @returns {Observable} Observable of attribute data
    */
-  getOneAttribute(attributeId){
+  getOneAttribute(attributeId) {
     let queryObj = {
-        "query": {
-            "term": {
-                "_id": attributeId
-            }
+      query: {
+        term: {
+          _id: attributeId
         }
-    }
+      }
+    };
     return this.dal.requestData(this.esIndex, 'attributes', queryObj);
   }
 
   /**
    * Return one tag by id
    * @param {string} tagId  tag id
-   * 
+   *
    * @returns {Observable} Observable of tag data
    */
-  getOneTag(tagId){
+  getOneTag(tagId) {
     let queryObj = {
-      "query": {
-        "term": {
-            "_id": tagId
+      query: {
+        term: {
+          _id: tagId
         }
       }
     };

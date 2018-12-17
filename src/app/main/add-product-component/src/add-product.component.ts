@@ -1,7 +1,7 @@
-import { ProductService } from 'src/app/product-mgmt/productservice';
+import { ProductService } from 'src/app/main/productservice';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder} from '@angular/forms';
-import { DbAbstractionLayer } from 'src/app/product-mgmt/dal';
+import { DbAbstractionLayer } from 'src/app/main/dal';
 
 /**
  * Component that represent a form to add new products to database
@@ -16,19 +16,16 @@ export class AddProductComponent implements OnInit {
   /**
    * Form object
    */
-
-  productForm: FormGroup;
-
+  productForm : FormGroup;
+  
   /**
    * Store categories
    */
-
   categories = [];
-
+  
   /**
    * Store attributes
    */
-
   attributes = [];
 
   /**
@@ -47,7 +44,7 @@ export class AddProductComponent implements OnInit {
   addedTags = [];
 
   isCategorySelected = false;
-  constructor(protected fb: FormBuilder,
+  constructor(protected fb: FormBuilder, 
               protected dal: DbAbstractionLayer,
               protected productService: ProductService) {
 
@@ -70,15 +67,15 @@ export class AddProductComponent implements OnInit {
   /**
    * Add product to database
    */
-  addProduct() {
-    const attributes = {};
-    const tags = [];
-    for (let i = 0; i < this.addedAttributes.length; i++) {
-      const attr = this.addedAttributes[i];
+  addProduct(){
+    let attributes = {};
+    let tags = [];
+    for(let i = 0; i < this.addedAttributes.length; i++){
+      let attr = this.addedAttributes[i];
       attributes[attr.id] = attr.childs;
     }
-    for (let i = 0; i < this.addedTags.length; i++) {
-      const tag = this.addedTags[i];
+    for(let i = 0; i < this.addedTags.length; i++){
+      let tag = this.addedTags[i];
       tags.push(tag.id);
     }
     this.productForm.patchValue({
@@ -92,7 +89,7 @@ export class AddProductComponent implements OnInit {
   /**
    * Attach attribute to product
    */
-  addAttribute() {
+  addAttribute(){
     this.addedAttributes.push({
       id: '',
       childs: [],
@@ -104,7 +101,7 @@ export class AddProductComponent implements OnInit {
   /**
    * Attach tag to product
    */
-  addTag() {
+  addTag(){
     this.addedTags.push({
       id: '',
       tags: this.filterProps(this.tags, this.addedTags)
@@ -113,15 +110,14 @@ export class AddProductComponent implements OnInit {
 
   /**
    * Filter properties
-   // tslint:disable-next-line:no-redundant-jsdoc
-   * @param props
-   * @param addedProps
+   * @param props 
+   * @param addedProps 
    */
-  filterProps(props, addedProps) {
+  filterProps(props, addedProps){
     return props.filter(prop => {
       let flag = true;
       for (let i = 0; i < addedProps.length; i++) {
-        if (prop.id !== addedProps[i].id) {
+        if (prop.id !== addedProps[i].id){
           continue;
         } else {
           flag = false;
@@ -135,16 +131,16 @@ export class AddProductComponent implements OnInit {
 
   /**
    * Process check of attribute
-   * @param attr Attribute
+   * @param attr Attribute 
    * @param valueName Attribute name
-   * @param event
+   * @param event 
    */
-  check(attr, valueName: string, $event) {
-    if ($event.target.checked) {
+  check(attr, valueName: string, $event){
+    if($event.target.checked){
       attr.childs.push(valueName);
-    } else {
+    }else{
       attr.childs = attr.childs.filter(value => {
-        if (value !== valueName) {
+        if(value !== valueName){
           return value;
         }
       });
@@ -156,7 +152,7 @@ export class AddProductComponent implements OnInit {
    * Remove attribute
    * @param index Index of attribute in array
    */
-  removeAttribute(index) {
+  removeAttribute(index){
     this.addedAttributes.splice(index, 1);
   }
 
@@ -164,14 +160,14 @@ export class AddProductComponent implements OnInit {
    * Remove tag
    * @param index Index of tagin array
    */
-  removeTag(index) {
+  removeTag(index){
     this.addedTags.splice(index, 1);
   }
 
-  searchAttrValues(attrId) {
+  searchAttrValues(attrId){
     console.log(attrId);
-    for (let i = 0; i < this.attributes.length; i++) {
-      if (this.attributes[i].id === attrId) {
+    for(let i = 0; i < this.attributes.length; i++){
+      if(this.attributes[i].id == attrId){
         return this.attributes[i].childs;
       }
     }
@@ -179,14 +175,14 @@ export class AddProductComponent implements OnInit {
 
   /**
    * Get tags by category
-   * @param event
+   * @param event 
    */
-  getTags($event) {
-    const categoryId = $event.target.value;
+  getTags($event){
+    let categoryId = $event.target.value;
     console.log(categoryId);
       this.productService.getCategory(categoryId).subscribe( data => {
-      if (data.val()) {
-        console.log('Attrs ids:');
+      if(data.val()){
+        console.log("Attrs ids:");
         console.log(data.val());
         let ids = data.val()[0]['_source']['tags'];
         let queryObject = {
@@ -196,16 +192,16 @@ export class AddProductComponent implements OnInit {
                 }
             }
         };
-        // add OR matches to find all attributes
-        for (let i = 0; i < ids.length; i++){
+        // add OR matches to find all attributes 
+        for(let i = 0; i < ids.length; i++){
           queryObject.query.bool.should.push({
             match: {
-              '_id': ids[i]
+              "_id": ids[i]
             }
           })
         }
         this.dal.getTags(queryObject).subscribe( data => {
-          if (data.val()){
+          if(data.val()){
             console.log("Final data: ");
             this.tags = data.val().map(item => {
               item['_source']['id'] = item['_id'];
@@ -223,11 +219,11 @@ export class AddProductComponent implements OnInit {
    * Get attributes by category
    * @param event 
    */
-  getAttributes($event) {
+  getAttributes($event){
     let categoryId = $event.target.value;
     console.log(categoryId);
       this.productService.getCategory(categoryId).subscribe( data => {
-      if (data.val()) {
+      if(data.val()){
         console.log("Attrs ids:");
         console.log(data.val());
         let ids = data.val()[0]['_source']['attrs'];
@@ -239,7 +235,7 @@ export class AddProductComponent implements OnInit {
             }
         };
         // add OR matches to find all attributes 
-        for (let i = 0; i < ids.length; i++) {
+        for(let i = 0; i < ids.length; i++){
           queryObject.query.bool.should.push({
             match: {
               "_id": ids[i]
@@ -247,7 +243,7 @@ export class AddProductComponent implements OnInit {
           })
         }
         this.dal.getAttributes(queryObject).subscribe( data => {
-          if (data.val()) {
+          if(data.val()){
             console.log("Final data: ");
             this.attributes = data.val().map(item => {
               item['_source']['id'] = item['_id'];
@@ -265,7 +261,7 @@ export class AddProductComponent implements OnInit {
    * Get properties (attributes, tags)
    * @param event 
    */
-  getProps($event) {
+  getProps($event){
     this.getAttributes($event);
     this.getTags($event);
   }
@@ -273,9 +269,9 @@ export class AddProductComponent implements OnInit {
   /**
    * Get categories
    */
-  getCategories() {
+  getCategories(){
     this.productService.getCategories('1').subscribe( data => {
-      if (data.val()) {
+      if(data.val()) {
         this.categories = data.val().map(item => {
               item['_source']['id'] = item['_id'];
               return item['_source'];
