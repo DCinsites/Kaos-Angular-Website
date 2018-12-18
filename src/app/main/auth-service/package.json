@@ -1,5 +1,5 @@
 {
-  "name": "@nodeart/auth-service",
+  "name": "auth-service",
   "version": "2.1.56",
   "description": "",
   "main": "index.ts",
@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nodeart/dal": "2.1.56",
-    "@nodeart/session-flow": "2.1.56"
+    "src/app/main/dal": "2.1.56",
+    "src/app/main/session-flow": "2.1.56"
   }
 }

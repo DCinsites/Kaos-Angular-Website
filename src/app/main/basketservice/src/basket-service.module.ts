@@ -1,7 +1,8 @@
-import { SessionFlow } from '@nodeart/session-flow/index';
+import { SessionFlow } from './../../session-flow/src/session-flow';
+import { DalModule } from './../../dal/src/dal.module';
+
 import { NgModule } from '@angular/core';
 
-import { DalModule } from '@nodeart/dal/index';
 import { BasketService }   from './basket.service';
 
 /**

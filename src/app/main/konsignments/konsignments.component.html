@@ -53,7 +53,7 @@
             </a>
          </div>
 
-                     <!--==============================================            TODO: ADD PRODUCT IMG PLACEHOLDERS WITH CODE EX: <img class="/assets/consignment-imgs/IMG_4408.jpg" [src]="product.imageUrl "/>
+                     <!--==============================================            TODO: ADD PRODUCT IMG PLACEHOLDERS WITH CODE EX: <img class="/assets/consignment-imgs/IMG_4408.jpg", "card-img-top" [src]="product.imageUrl "/>
                  =============================================-->
 
          <div class="row">
@@ -67,8 +67,7 @@
                         <a href="#">{{ product.name }}</a>
                      </h4>
                      <h5>{{ product.price }}</h5>
-                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                        aspernatur!</p>
+                     <p class="card-text">{{ product.attributes }}</p>
                   </div>
                   <div class="card-footer">
                      <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>

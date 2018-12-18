@@ -1,5 +1,5 @@
 {
-  "name": "@nodeart/basketservice",
+  "name": "basketservice",
   "version": "2.1.56",
   "description": "Save and remove products in basket, track user basket history",
   "main": "index.ts",
@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nodeart/dal": "2.1.56",
-    "@nodeart/session-flow": "2.1.56"
+    "src/app/main/dal": "2.1.56",
+    "src/app/main/session-flow": "2.1.56"
   }
 }

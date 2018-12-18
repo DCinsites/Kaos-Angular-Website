@@ -1,7 +1,7 @@
-import { DbAbstractionLayer } from '@nodeart/dal/index';
+import { DbAbstractionLayer } from 'src/app/main/dal';
 import {Injectable} from "@angular/core";
-import {SessionFlow} from "@nodeart/session-flow/index";
-import { Subject } from "rxjs/Subject";
+import {SessionFlow} from "src/app/main/session-flow/index";
+import { Subject } from "rxjs/internal/Subject";
 
 /**
  * Service that have logic to work with basket

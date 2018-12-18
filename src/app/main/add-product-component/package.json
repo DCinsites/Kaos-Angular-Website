@@ -1,5 +1,5 @@
 {
-  "name": "@nodeart/add-product-component",
+  "name": "product-component",
   "version": "2.1.56",
   "description": "Form to add new product",
   "main": "index.ts",
@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nodeart/productservice": "2.1.56"
+    "src/app/main/productservice": "2.1.56"
   }
 }

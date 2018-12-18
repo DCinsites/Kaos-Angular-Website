@@ -1,6 +1,6 @@
-import { SessionFlow } from '@nodeart/session-flow';
+import { SessionFlow } from 'src/app/main/session-flow';
 import {Injectable, NgZone} from "@angular/core";
-import {DbAbstractionLayer} from "@nodeart/dal";
+import {DbAbstractionLayer} from "src/app/main/dal";
 /**
  * Service that provide user data and methods to work with auth
  */
